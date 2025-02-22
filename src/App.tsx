@@ -6,6 +6,7 @@ import { useFiles } from "@/hooks/use-files";
 import { useFileSearch } from "@/hooks/use-file-search";
 import type { FileItem } from "@/types/file";
 import type { FolderItem } from "@/types/folder";
+import { FileActionsProvider } from "@/components/providers/file-actions-provider";
 
 function App() {
 	const [currentPath, setCurrentPath] = useState("/");
@@ -52,19 +53,22 @@ function App() {
 
 	return (
 		<div className="min-h-screen bg-background">
-			<Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-			<div className="flex">
-				<Sidebar currentFolderId={currentFolderId} currentPath={currentPath} onFileUpload={fetchFiles} onFolderCreate={fetchFiles} />
-				<FileViewContainer
-					files={filteredFiles}
-					isLoading={isLoading}
-					viewMode={viewMode}
-					currentPath={currentPath}
-					onViewModeChange={setViewMode}
-					onItemClick={handleItemClick}
-					onNavigate={handleBreadcrumbNavigate}
-				/>
-			</div>
+			<FileActionsProvider currentFolderId={currentFolderId} currentPath={currentPath} onComplete={fetchFiles}>
+				<Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+				<div className="flex">
+					<Sidebar />
+					<FileViewContainer
+						files={filteredFiles}
+						isLoading={isLoading}
+						viewMode={viewMode}
+						currentPath={currentPath}
+						onViewModeChange={setViewMode}
+						onItemClick={handleItemClick}
+						onNavigate={handleBreadcrumbNavigate}
+						onRefresh={fetchFiles}
+					/>
+				</div>
+			</FileActionsProvider>
 		</div>
 	);
 }

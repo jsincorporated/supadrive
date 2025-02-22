@@ -9,14 +9,15 @@ import { FileActionsMenu } from "./FileActionsMenu";
 interface FileGridItemProps {
 	item: FileItem | FolderItem;
 	onClick: () => void;
+	onRefresh: () => void;
 }
 
-export function FileGridItem({ item, onClick }: FileGridItemProps) {
+export function FileGridItem({ item, onClick, onRefresh }: FileGridItemProps) {
 	return (
 		<div className="group rounded-lg border p-4 hover:bg-accent" onClick={onClick}>
 			<div className="mb-2 flex items-center justify-between">
 				<FileIcon item={item} />
-				<FileActionsMenu item={item} />
+				<FileActionsMenu item={item} onDelete={onRefresh} />
 			</div>
 			<p className="font-medium">{item.name}</p>
 			<div className="mt-1 flex items-center text-sm text-muted-foreground">

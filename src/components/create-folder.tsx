@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { supabase } from "../supabaseClient";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { FolderPlus } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface CreateFolderProps {
 	parentId: number | null;
@@ -14,7 +13,6 @@ interface CreateFolderProps {
 
 const CreateFolder: React.FC<CreateFolderProps> = ({ parentId, currentPath, onFolderCreate }) => {
 	const [folderName, setFolderName] = useState("");
-	const [isOpen, setIsOpen] = useState(false);
 
 	const handleCreate = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -33,7 +31,6 @@ const CreateFolder: React.FC<CreateFolderProps> = ({ parentId, currentPath, onFo
 			if (error) throw error;
 
 			setFolderName("");
-			setIsOpen(false);
 			onFolderCreate();
 		} catch (error) {
 			console.error("Error creating folder:", error);
@@ -42,32 +39,31 @@ const CreateFolder: React.FC<CreateFolderProps> = ({ parentId, currentPath, onFo
 
 	return (
 		<>
-			<DropdownMenuItem
-				onClick={(e) => {
-					e.preventDefault();
-					e.stopPropagation();
-					setIsOpen(true);
-				}}
-			>
-				<FolderPlus className="mr-2 h-4 w-4" />
-				<span>Folder</span>
-			</DropdownMenuItem>
-			<Dialog open={isOpen} onOpenChange={setIsOpen}>
-				<DialogContent>
-					<DialogHeader>
-						<DialogTitle>Create New Folder</DialogTitle>
-					</DialogHeader>
-					<form onSubmit={handleCreate} className="space-y-4">
-						<Input placeholder="Folder name" value={folderName} onChange={(e) => setFolderName(e.target.value)} autoFocus />
-						<div className="flex justify-end space-x-2">
-							<Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
-								Cancel
-							</Button>
-							<Button type="submit">Create</Button>
-						</div>
-					</form>
-				</DialogContent>
-			</Dialog>
+			<DialogHeader>
+				<DialogTitle>Create New Folder</DialogTitle>
+			</DialogHeader>
+			<form onSubmit={handleCreate} className="space-y-4">
+				<div className="space-y-2">
+					<Input
+						placeholder="Enter folder name"
+						value={folderName}
+						onChange={(e) => setFolderName(e.target.value)}
+						autoFocus
+						className={cn(
+							"focus-visible:ring-1",
+							"focus-visible:ring-gray-400 dark:focus-visible:ring-gray-600",
+							"focus-visible:ring-offset-0",
+							"border-gray-200 dark:border-gray-700"
+						)}
+					/>
+					<p className="text-sm text-muted-foreground">Create a new folder in {currentPath || "My Drive"}</p>
+				</div>
+				<div className="flex justify-end space-x-2">
+					<Button type="submit" variant="outline" className="hover:bg-accent">
+						Create Folder
+					</Button>
+				</div>
+			</form>
 		</>
 	);
 };

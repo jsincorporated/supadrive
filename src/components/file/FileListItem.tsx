@@ -8,9 +8,10 @@ import { FileActionsMenu } from "./FileActionsMenu";
 interface FileListItemProps {
 	item: FileItem | FolderItem;
 	onClick: () => void;
+	onRefresh: () => void;
 }
 
-export function FileListItem({ item, onClick }: FileListItemProps) {
+export function FileListItem({ item, onClick, onRefresh }: FileListItemProps) {
 	return (
 		<div className="flex items-center space-x-4 rounded-lg p-2 hover:bg-accent" onClick={onClick}>
 			<span className="w-8">
@@ -20,7 +21,7 @@ export function FileListItem({ item, onClick }: FileListItemProps) {
 			{"size" in item && <span className="w-24 text-left text-sm text-muted-foreground">{formatFileSize(item.size)}</span>}
 			<span className="w-40 text-left text-sm text-muted-foreground">{formatDate(item.created_at)}</span>
 			<span className="w-8">
-				<FileActionsMenu item={item} />
+				<FileActionsMenu item={item} onDelete={onRefresh} />
 			</span>
 		</div>
 	);

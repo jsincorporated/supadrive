@@ -8,9 +8,10 @@ interface FileListProps {
 	files: (FileItem | FolderItem)[];
 	isLoading: boolean;
 	onItemClick: (item: FileItem | FolderItem) => void;
+	onRefresh: () => void;
 }
 
-export function FileList({ files, isLoading, onItemClick }: FileListProps) {
+export function FileList({ files, isLoading, onItemClick, onRefresh }: FileListProps) {
 	if (isLoading) return <ListSkeleton />;
 
 	return (
@@ -23,7 +24,7 @@ export function FileList({ files, isLoading, onItemClick }: FileListProps) {
 					<span className="w-8"></span> {/* Space for menu */}
 				</div>
 				{files.map((item) => (
-					<FileListItem key={`${"parent_id" in item ? "folder" : "file"}-${item.id}`} item={item} onClick={() => onItemClick(item)} />
+					<FileListItem key={`${"parent_id" in item ? "folder" : "file"}-${item.id}`} item={item} onClick={() => onItemClick(item)} onRefresh={onRefresh} />
 				))}
 			</div>
 		</ScrollArea>

@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import { supabase } from "../supabaseClient";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { FilePlus } from "lucide-react";
+import { Button } from "./ui/button";
+import { Upload } from "lucide-react";
+import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface UploadFileProps {
 	folderId: number | null;
@@ -15,18 +16,12 @@ const UploadFile: React.FC<UploadFileProps> = ({ folderId, folderPath, onUploadC
 	const handleClick = (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		console.log("Triggering file input click");
 		fileInputRef.current?.click();
 	};
 
 	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		console.log("File change event triggered");
 		const files = e.target.files;
-		if (!files || files.length === 0) {
-			console.log("No files selected");
-			return;
-		}
-		console.log(`Selected ${files.length} files`);
+		if (!files || files.length === 0) return;
 
 		// Convert FileList to Array for easier handling
 		const filesArray = Array.from(files);
@@ -75,11 +70,19 @@ const UploadFile: React.FC<UploadFileProps> = ({ folderId, folderPath, onUploadC
 
 	return (
 		<>
-			<input ref={fileInputRef} type="file" multiple onChange={handleFileChange} style={{ display: "none" }} id="fileInput" onClick={(e) => e.stopPropagation()} />
-			<DropdownMenuItem onClick={handleClick}>
-				<FilePlus className="mr-2 h-4 w-4" />
-				<span>File</span>
-			</DropdownMenuItem>
+			<DialogHeader>
+				<DialogTitle>Upload Files</DialogTitle>
+			</DialogHeader>
+			<div className="space-y-4">
+				<div className="rounded-lg border-2 border-dashed border-muted-foreground/25 p-12 text-center">
+					<Upload className="mx-auto h-8 w-8 text-muted-foreground/50" />
+					<p className="mt-2 text-sm text-muted-foreground">Drag and drop files, or click to select</p>
+					<Button variant="outline" className="mt-4" onClick={() => fileInputRef.current?.click()}>
+						Select Files
+					</Button>
+				</div>
+			</div>
+			<input type="file" ref={fileInputRef} className="hidden" onChange={handleFileChange} multiple />
 		</>
 	);
 };
