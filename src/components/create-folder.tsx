@@ -56,7 +56,7 @@ const CreateFolder: React.FC<CreateFolderProps> = ({ parentId, currentPath, onFo
 							"border-gray-200 dark:border-gray-700"
 						)}
 					/>
-					<p className="text-sm text-muted-foreground">Create a new folder in {currentPath || "My Drive"}</p>
+					<p className="text-sm text-muted-foreground">Create a new folder in {currentPath === "/" ? "My Drive" : currentPath}</p>
 				</div>
 				<div className="flex justify-end space-x-2">
 					<Button type="submit" variant="outline" className="hover:bg-accent">

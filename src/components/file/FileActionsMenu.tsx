@@ -35,6 +35,25 @@ export function FileActionsMenu({ item, onDelete }: FileActionsMenuProps) {
 		}
 	};
 
+	const handleDownload = async () => {
+		if ("url" in item) {
+			try {
+				const response = await fetch(item.url as string);
+				const blob = await response.blob();
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.href = url;
+				a.download = item.name;
+				document.body.appendChild(a);
+				a.click();
+				window.URL.revokeObjectURL(url);
+				document.body.removeChild(a);
+			} catch (error) {
+				console.error("Download failed:", error);
+			}
+		}
+	};
+
 	return (
 		<>
 			<DropdownMenu>
@@ -44,8 +63,15 @@ export function FileActionsMenu({ item, onDelete }: FileActionsMenuProps) {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
-					<DropdownMenuItem>Share</DropdownMenuItem>
-					<DropdownMenuItem>Download</DropdownMenuItem>
+					<DropdownMenuItem
+						onClick={(e) => {
+							e.stopPropagation();
+							handleDownload();
+						}}
+						disabled={!("url" in item)}
+					>
+						Download
+					</DropdownMenuItem>
 					<DropdownMenuItem>Rename</DropdownMenuItem>
 					<DropdownMenuItem
 						className="text-destructive"
