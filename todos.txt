@@ -3,3 +3,9 @@
 ✅ Deleting and downloading functionality
 ✅ Drag and drop file upload
 - Add routing for folders
+- Trashbin
+
+==== (possible) ways to improve performance ====
+- something wrong with code
+- fetch once, then realtime subscription 
+- learn abt indexers in postgres
