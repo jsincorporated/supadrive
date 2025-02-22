@@ -17,9 +17,9 @@ export function Sidebar({ currentFolderId, currentPath, onFileUpload, onFolderCr
 			<div className="space-y-2">
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button variant="outline" className="w-full justify-start space-x-2">
+						<Button variant="outline" className="w-full justify-start">
 							<Plus className="h-5 w-5" />
-							<span>New</span>
+							<span className="ml-2">New</span>
 							<ChevronDown className="ml-auto h-4 w-4" />
 						</Button>
 					</DropdownMenuTrigger>

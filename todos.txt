@@ -1,3 +1,4 @@
 - Add loading indicators on first load and when opening folders 
 - Add breadcrumbs
 - Add routing for folders
+- Reorganise file-skeletons.tsx

@@ -16,15 +16,12 @@ export function FileList({ files, isLoading, onItemClick }: FileListProps) {
 	return (
 		<ScrollArea className="h-[calc(100vh-12rem)]">
 			<div className="space-y-1">
-				{/* Column headers */}
 				<div className="flex items-center space-x-4 rounded-lg p-2 text-sm text-muted-foreground">
 					<span className="flex-1">Name</span>
 					<span className="w-24 text-left">Size</span>
 					<span className="w-40 text-left">Created At</span>
 					<span className="w-8"></span> {/* Space for menu */}
 				</div>
-
-				{/* File list */}
 				{files.map((item) => (
 					<FileListItem key={`${"parent_id" in item ? "folder" : "file"}-${item.id}`} item={item} onClick={() => onItemClick(item)} />
 				))}

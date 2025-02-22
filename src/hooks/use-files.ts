@@ -10,7 +10,6 @@ export function useFiles(currentFolderId: number | null) {
 	const fetchFiles = async () => {
 		try {
 			setIsLoading(true);
-			console.log("fetching files");
 			const filesQuery = supabase.from("files").select("*").order("name");
 			const { data: filesData, error: filesError } = await (currentFolderId === null ? filesQuery.is("folder_id", null) : filesQuery.eq("folder_id", currentFolderId));
 
