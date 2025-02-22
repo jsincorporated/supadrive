@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../../supabaseClient";
 import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,12 +13,14 @@ interface CreateFolderProps {
 
 const CreateFolder: React.FC<CreateFolderProps> = ({ parentId, currentPath, onFolderCreate }) => {
 	const [folderName, setFolderName] = useState("");
+	const [isCreating, setIsCreating] = useState(false);
 
 	const handleCreate = async (e: React.FormEvent) => {
 		e.preventDefault();
 
 		if (!folderName.trim()) return;
 
+		setIsCreating(true);
 		try {
 			const { error } = await supabase.from("folders").insert([
 				{
@@ -34,6 +36,8 @@ const CreateFolder: React.FC<CreateFolderProps> = ({ parentId, currentPath, onFo
 			onFolderCreate();
 		} catch (error) {
 			console.error("Error creating folder:", error);
+		} finally {
+			setIsCreating(false);
 		}
 	};
 
@@ -59,8 +63,8 @@ const CreateFolder: React.FC<CreateFolderProps> = ({ parentId, currentPath, onFo
 					<p className="text-sm text-muted-foreground">Create a new folder in {currentPath === "/" ? "My Drive" : currentPath}</p>
 				</div>
 				<div className="flex justify-end space-x-2">
-					<Button type="submit" variant="outline" className="hover:bg-accent">
-						Create Folder
+					<Button type="submit" variant="outline" className="hover:bg-accent" disabled={isCreating}>
+						{isCreating ? "Creating..." : "Create Folder"}
 					</Button>
 				</div>
 			</form>

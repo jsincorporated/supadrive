@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import UploadFile from "../upload-file";
-import CreateFolder from "../create-folder";
+import { Dialog, DialogContent, DialogDescription } from "@/components/ui/dialog";
+import UploadFile from "../file/UploadFile";
+import CreateFolder from "../file/CreateFolder";
 
 type ActionType = "upload" | "createFolder" | null;
 
@@ -44,6 +44,7 @@ export function FileActionsProvider({ children, currentFolderId, currentPath, on
 			{children}
 			<Dialog open={activeAction === "upload"} onOpenChange={() => setActiveAction(null)}>
 				<DialogContent>
+					<DialogDescription className="sr-only">Upload files to your drive</DialogDescription>
 					<UploadFile
 						folderId={currentFolderId}
 						folderPath={currentPath}
@@ -56,6 +57,7 @@ export function FileActionsProvider({ children, currentFolderId, currentPath, on
 			</Dialog>
 			<Dialog open={activeAction === "createFolder"} onOpenChange={() => setActiveAction(null)}>
 				<DialogContent>
+					<DialogDescription className="sr-only">Create a new folder in your drive</DialogDescription>
 					<CreateFolder
 						parentId={currentFolderId}
 						currentPath={currentPath}
