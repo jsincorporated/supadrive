@@ -2,8 +2,9 @@
 ✅ Add breadcrumbs
 ✅ Deleting and downloading functionality
 ✅ Drag and drop file upload
+- change provider usage to share functions instead of UI+functions
 - Add routing for folders
-- Trashbin
+- Trash bin
 
 ==== (possible) ways to improve performance ====
 - something wrong with code
