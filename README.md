@@ -43,6 +43,7 @@ npm install
 3. Create a `.env` file in the root directory:
 
 ```bash
+VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_KEY=your_supabase_key
 ```
 
@@ -60,3 +61,13 @@ npm run dev
     - `folders` (id, name, parent_id, created_at)
 3. Enable Storage and create a bucket named `my-bucket`
 4. Set up storage policies for public access
+
+## Todos
+
+Future improvements and features planned for SupaDrive:
+
+### High Priority
+
+-   [ ] Implement folder routing in URL (e.g., `/folder/123/subfolder/456`)
+-   [ ] Add favorites functionality
+-   [ ] Implement file preview for common formats
